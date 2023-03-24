@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    .form-data {
+        width: 400px;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid black;
+        padding: 15px 15px 15px 15px;
+        border-radius: 5px;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .control {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .inpt {
+        height: 25px;
+        border-radius: 5px;
+    }
+
+    #productCode {
+        height: 40px;
+        border-radius: 5px;
+        font-size: 18px;
+    }
+
+    .btn_submit {
+        width: 50%;
+        height: 30px;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 16px;
+    }
+
+    .cntr_btn {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .top-div {
+        display: flex;
+        width: 100%;
+        justify-content: start;
+    }
+
+    a {
+        font-size: 20px;
+        font-weight: 900;
+        text-decoration: none;
+        padding: 20px;
+        width: 180px;
+        height: 18px;
+    }
+</style>
+
+<body>
+    <script>
+        fetch('/listOfAllProducts', {
+            method: 'get',
+            headers: { authorization: `Bearer ${JSON.parse(localStorage.getItem('data'))}` }
+        }).then((res) => {
+            if (res.status === 200) {
+                return (res.json().then((data) => {
+                    document.getElementById('productCode').innerHTML = data.map((item) =>
+                        `<option style="color:black; font-size:18px; background-color:white;"> ${item.productCode} </option>`)
+                }).catch((err) => { console.log(err) }))
+            } else {
+                return res.json().then((resp) => {
+                    alert(resp.message);
+                    window.location.href = '/all'
+                })
+            }
+        })
+
+
+    </script>
+
+    <div class="top-div">
+        <a href="/all"> Home </a>
+    </div>
+    <div>
+        <form class="form-data" action="/editProduct" method="post" enctype="multipart/form-data">
+            <div class="cntr_btn">
+                <h2>EDIT PRODUCT...</h2>
+            </div>
+            <label for="productName">
+                <h2>Product Name :</h2>
+            </label> <input class="inpt" name="productName" id="productName" type="text" />
+            <label for="productCode">
+                <h2>Product Code :</h2>
+            </label> <select class="inpt" name="productCode" id="productCode" type="text"> </select>
+            <label>
+                <h2>Product Image :</h2>
+            </label> <input class="inpt" name="productImage" type="file" />
+            <label for="productQuantity">
+                <h2> Increase Product Quantity :</h2>
+            </label> <input class="inpt" name="productQuantity" id="productQuantity" type="number" />
+            <label for="purchase_price_price_per_unit">
+                <h2>Purchase price per unit :</h2>
+            </label> <input class="inpt" name="purchase_price_per_unit" id="purchase_price_per_unit" type="number" />
+            <label for="email">
+                <h2>Admin Email :</h2>
+            </label> <input class="inpt" name="email" id="email" type="email" />
+            <br></br>
+            <div class="cntr_btn"> <button type="submit" class="btn_submit">SUBMIT</button> </div>
+        </form>
+    </div>
+</body>
+
+</html>

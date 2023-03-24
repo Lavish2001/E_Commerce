@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product_img {
+        width: 300px;
+        height: 400px;
+    }
+
+    .details {
+        font-size: 15px;
+    }
+
+    thead {
+        font-size: 20px;
+    }
+
+    th {
+        width: 300px;
+        height: 40px;
+        padding-bottom: 10px;
+        border: 1px solid black;
+        position: sticky;
+        top: 99px;
+        background-color: white;
+    }
+
+    td {
+        width: 300px;
+        font-size: 20px;
+        text-align: center;
+        border: 1px solid black;
+        height: 40px;
+    }
+
+    img {
+        height: 300px;
+        width: 300px;
+    }
+
+
+    table {
+        padding-top: 10px;
+    }
+
+    .top-div {
+        display: flex;
+        padding-left: 20px;
+        flex-direction: column;
+        width: 100%;
+        justify-content: start;
+        position: fixed;
+        top: 20px;
+    }
+
+    a {
+        display: flex;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 900;
+        text-decoration: none;
+        width: 200px;
+        height: 16px;
+        padding-bottom: 20px;
+    }
+
+    span {
+        font-size: 30px;
+        border: 1px solid black;
+        border-radius: 5px;
+        color: white;
+        background-color: black;
+        margin-left: 10px;
+    }
+
+    span:hover {
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <h1 style="text-align: center;"> Orders </h1>
+    <div class="top-div">
+        <a href="all"> Home </a>
+    </div>
+    <table id="tablee">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Product Code</th>
+                <th>Quantity</th>
+                <th>Product Price</th>
+                <th>Ordet At</th>
+                <th>Product Image</th>
+            </tr>
+        </thead>
+        <tbody id="table_body">
+
+        </tbody>
+    </table>
+
+    <div id="nav"></div>
+
+    <script>
+        fetch("http://localhost:8080/soloBuyProduct", {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                authorization: `Bearer ${JSON.parse(localStorage.getItem('data'))}`
+            }
+        })
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json().then(data => {
+                        if (data.length) {
+                            const nav = document.getElementById('nav');
+                            const content = document.getElementById('table_body');
+                            nav.style.marginTop = "55rem"
+                            nav.style.position = "fixed"
+
+                            let pageIndex = localStorage.getItem('pageId2') ? localStorage.getItem('pageId2') : 0; // Page index initialized at 0
+                            let itemsPerPage = 2; // Sets items on each page
+                            loadItems()
+                            function loadItems() {
+                                localStorage.setItem('pageId2', pageIndex)
+                                content.innerHTML = "";
+                                for (let i = pageIndex * itemsPerPage; i < (pageIndex * itemsPerPage) + itemsPerPage; i++) {
+                                    if (!data[i]) { break }
+                                    const item = document.createElement('tr');
+                                    item.innerHTML = `<td>${data[i].product_name}</td>
+                    <td>${data[i].product_code} </td>
+                    <td>${data[i].quantity}</td>
+                    <td>${data[i].product_price} $</td>
+                    <td>${new Date(data[i].Order_At).toDateString()} <br></br>
+                        ${new Date(data[i].Order_At).toLocaleTimeString([], { hour12: true, hour: 'numeric', minute: 'numeric' })}
+                        </td>
+                    <td> <img src=http://localhost:8080/Images/${data[i].product_image}> </img> </td>`
+                                        ;
+                                    content.append(item);
+                                }
+                                loadPageNav()
+                            }
+
+
+                            function loadPageNav() {
+                                nav.innerHTML = "";
+                                for (let i = 0; i < (data.length / itemsPerPage); i++) {
+
+                                    const span = document.createElement('span');
+                                    span.innerHTML = i + 1;
+                                    span.addEventListener('click', (e) => {
+                                        pageIndex = e.target.innerHTML - 1;
+                                        loadItems();
+                                    });
+                                    if (i === Number(pageIndex)) {
+                                        span.style.fontSize = "2.5rem";
+                                    }
+                                    nav.append(span);
+                                }
+                            }
+                        } else {
+                            document.getElementById('tablee').innerHTML = `<h2> No Orders </h2>`
+                        }
+                    })
+                        .catch(error => {
+                            alert(error.message);
+                            window.location.href = 'all'
+                        });
+                } else {
+                    return response.json().then((res) => {
+                        alert(res.message);
+                        window.location.href = 'all'
+                    }).catch((err) => {
+                        alert(err.message);
+                        window.location.href = 'all';
+                    })
+                }
+            })
+
+
+
+    </script>
+</body>
+
+</html>

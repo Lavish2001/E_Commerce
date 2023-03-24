@@ -1,0 +1,33 @@
+{
+  "name": "nodejs-serverless-boilerplate",
+  "description": "A Powerful,Flexible and Scalable boilerplate for your Serverless backend.It will help you to keep Calm,you don't need to worry about building backend architecure.Just spend your time on writting your bussiness logic.",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "nodemon ./bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.8",
+    "express": "^4.17.1",
+    "http": "0.0.1-security",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "mysql2": "^2.1.0",
+    "sequelize": "^5.22.4",
+    "serverless-http": "^2.3.2",
+    "twig": "^1.15.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20",
+    "sequelize-cli": "^6.2.0"
+  },
+  "main": "index.js",
+  "bin": {
+    "nodejs-serverless-boilerplate": "bin/kernel.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

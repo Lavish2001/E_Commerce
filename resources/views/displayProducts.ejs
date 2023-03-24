@@ -1,0 +1,491 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product_img {
+        width: 300px;
+        height: 400px;
+    }
+
+    .details {
+        font-size: 15px;
+    }
+
+    thead {
+        font-size: 20px;
+    }
+
+    th {
+        width: 300px;
+        height: 40px;
+        padding-bottom: 10px;
+        border: 1px solid black;
+        position: sticky;
+        top: 99px;
+        background-color: white;
+    }
+
+    td {
+        width: 300px;
+        font-size: 20px;
+        text-align: center;
+        border: 1px solid black;
+        height: 40px;
+    }
+
+    img {
+        height: 80px;
+        width: 130px;
+    }
+
+    table {
+        padding-top: 40px;
+    }
+
+    .top-div {
+        display: flex;
+        padding-left: 20px;
+        flex-direction: column;
+        width: 100%;
+        justify-content: start;
+        position: fixed;
+        top: 20px;
+    }
+
+    a {
+        display: flex;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 900;
+        text-decoration: none;
+        width: 200px;
+        height: 16px;
+        padding-bottom: 20px;
+    }
+</style>
+
+<body>
+    <h1 style="text-align: center;">Purchase Products</h1>
+    <div class="top-div">
+        <a href="addproducts"> Add Products </a>
+        <a href="edit"> Edit Product </a>
+        <a href="sell"> Sell Product </a>
+        <a href="sellingList"> Selling Products List</a>
+        <a href="editSell"> Edit Selling Product </a>
+        <a href="buy"> Buy Product </a>
+        <a href="sold"> Sold Products </a>
+        <a href="stats"> Stats </a>
+        <a href="/"> Log Out </a>
+    </div>
+    <div id="nav"></div>
+    <div id="productDetails">
+
+    </div>
+
+    <script>
+        fetch('/listOfAllProducts').then((res) => res.json())
+            .then((data) => {
+
+                document.getElementById('productDetails').innerHTML =
+                    !data.length ? `<h2> No Products Found </h2>` :
+                        `  <table>
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Product Code</th>
+                    <th>Quantity</th>
+                    <th>Purchase Price Per Unit</th>
+                    <th>Product Image</th>
+                </tr>
+            </thead>
+            <tbody id="product">
+            ${data.map(item =>
+                            item.quantity < 10 ? `  <tr style="color:red; font-size:40px; font-weight:900;" >
+                    <td>${item.productName}</td>
+                    <td>${item.productCode}</td>
+                    <td>${item.quantity}</td>
+                    <td>${item.purchasePricePerUnit} $</td>
+                    <td> <img src=http://localhost:8080/Images/${item.productImage}> </img> </td>
+                </tr>` : `  <tr>
+                    <td>${item.productName}</td>
+                    <td>${item.productCode}</td>
+                    <td>${item.quantity}</td>
+                    <td>${item.purchasePricePerUnit} $</td>
+                    <td> <img src=http://localhost:8080/Images/${item.productImage}> </img> </td>
+                </tr>`
+                        ).join('')
+                        }
+            </tbody>
+        </table>`
+
+            }).catch((err) => { console.log(err) })
+    </script>
+</body>
+
+</html>
+
+ -->
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product_img {
+        width: 300px;
+        height: 400px;
+    }
+
+    .details {
+        font-size: 15px;
+    }
+
+    thead {
+        font-size: 20px;
+    }
+
+    th {
+        width: 300px;
+        height: 40px;
+        padding-bottom: 10px;
+        border: 1px solid black;
+        position: sticky;
+        top: 99px;
+        background-color: white;
+    }
+
+    td {
+        width: 300px;
+        font-size: 20px;
+        text-align: center;
+        border: 1px solid black;
+        height: 40px;
+    }
+
+    img {
+        height: 300px;
+        width: 300px;
+    }
+
+
+    table {
+        padding-top: 10px;
+    }
+
+    .top-div {
+        display: flex;
+        padding-left: 20px;
+        flex-direction: column;
+        width: 100%;
+        justify-content: start;
+        position: fixed;
+        top: 20px;
+    }
+
+    a {
+        display: flex;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 900;
+        text-decoration: none;
+        width: 200px;
+        height: 16px;
+        padding-bottom: 20px;
+    }
+
+    span {
+        font-size: 30px;
+        border: 1px solid black;
+        border-radius: 5px;
+        color: white;
+        background-color: black;
+        margin-left: 10px;
+    }
+
+    span:hover {
+        cursor: pointer;
+    }
+
+    #clear:hover {
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <h1 style="text-align: center;">Purchase Products</h1>
+    <div class="top-div">
+        <a id="clear" style="color: blue;" onclick="add(event)"> Add Products </a>
+        <a id="clear" style="color: blue;" onclick="add2(event)"> Edit Product </a>
+        <a id="clear" style="color: blue;" onclick="add3(event)"> Sell Product </a>
+        <a id="clear" style="color: blue;" onclick="add4(event)"> Selling Products List</a>
+        <a id="clear" style="color: blue;" onclick="add8(event)"> Edit Selling Product </a>
+        <a id="clear" style="color: blue;" href="buy"> Buy Product </a>
+        <a id="clear" style="color: blue;" href="orders"> Orders </a>
+        <a id="clear" style="color: blue;" onclick="add5(event)"> Sold Products </a>
+        <a id="clear" style="color: blue;" onclick="add6(event)"> Add User </a>
+        <a id="clear" style="color: blue;" onclick="add7(event)"> Stats </a>
+        <a id="clear" style="color: blue;" onclick="clearData()"> Log Out </a>
+    </div>
+    <table id="table2">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Product Code</th>
+                <th>Quantity</th>
+                <th>Purchase Price Per Unit</th>
+                <th>Product Image</th>
+            </tr>
+        </thead>
+        <tbody id="table_body">
+
+        </tbody>
+    </table>
+
+    <div id="nav"></div>
+
+    <script>
+        function clearData() {
+            localStorage.clear();
+            location.href = '/'
+        }
+
+
+        fetch(`http://localhost:8080/listOfAllProducts`,
+            { headers: { authorization: `Bearer ${JSON.parse(localStorage.getItem('data'))}` } })
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json().then(data => {
+                        console.log(data)
+                        const nav = document.getElementById('nav');
+                        const content = document.getElementById('table_body');
+                        nav.style.marginTop = "55rem"
+                        nav.style.position = "fixed"
+
+                        var pageIndex = localStorage.getItem('pageId') ? localStorage.getItem('pageId') : 0; // Page index initialized at 0
+                        var itemsPerPage = 2; // Sets items on each page
+                        loadItems()
+                        function loadItems() {
+                            localStorage.setItem('pageId', pageIndex)
+                            content.innerHTML = "";
+                            for (let i = pageIndex * itemsPerPage; i < (pageIndex * itemsPerPage) + itemsPerPage; i++) {
+                                if (!data[i]) { break }
+                                const item = document.createElement('tr');
+                                item.innerHTML =
+                                    data[i].quantity < 10 ? `<td style = "color:red;">${data[i].productName}</td>
+                    <td style = "color:red;">${data[i].productCode} </td>
+                    <td style = "color:red;">${data[i].quantity}</td>
+                    <td style = "color:red;">${data[i].purchasePricePerUnit} $</td>
+                    <td> <img src=http://localhost:8080/Images/${data[i].productImage}> </img> </td>` :
+                                        `<td>${data[i].productName}</td>
+                    <td>${data[i].productCode} </td>
+                    <td>${data[i].quantity}</td>
+                    <td>${data[i].purchasePricePerUnit} $</td>
+                    <td> <img src=http://localhost:8080/Images/${data[i].productImage}> </img> </td>`
+
+                                    ;
+                                content.append(item);
+                            }
+                            loadPageNav()
+                        }
+
+
+                        function loadPageNav() {
+                            nav.innerHTML = "";
+                            for (let i = 0; i < (data.length / itemsPerPage); i++) {
+                                const span = document.createElement('span');
+                                span.innerHTML = i + 1;
+                                span.addEventListener('click', (e) => {
+                                    pageIndex = e.target.innerHTML - 1;
+                                    loadItems();
+                                });
+                                if (i === Number(pageIndex)) {
+                                    span.style.fontSize = "2.5rem";
+                                }
+                                nav.append(span);
+                            }
+                        }
+                    })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                } else {
+                    return response.json().then((res) => {
+                        document.getElementById('table2').innerHTML = `<h2> ${res.message} </h2>`
+                    }).catch((err) => {
+                        alert(err.message)
+                    })
+                }
+            })
+
+
+
+        const add = (e) => {
+            e.preventDefault()
+            fetch(`/common`, {
+                headers: { authorization: `Bearer ${JSON.parse(localStorage.getItem('data'))}` },
+                method: 'GET',
+            })
+                .then(response => {
+                    if (response.status === 200) {
+                        return window.location.href = '/addProducts'
+                    } else {
+                        alert('you are not admin')
+                    }
+                })
+        }
+
+        const add2 = (e) => {
+            e.preventDefault()
+            fetch(`/common`, {
+                headers: { authorization: `Bearer ${JSON.parse(localStorage.getItem('data'))}` },
+                method: 'GET',
+            })
+                .then(response => {
+                    if (response.status === 200) {
+                        return window.location.href = '/edit'
+                    } else {
+                        alert('you are not admin')
+                    }
+                })
+
+        }
+
+        const add3 = (e) => {
+            e.preventDefault()
+            fetch(`/common`, {
+                headers: { authorization: `Bearer ${JSON.parse(localStorage.getItem('data'))}` },
+                method: 'GET',
+            })
+                .then(response => {
+                    if (response.status === 200) {
+                        return window.location.href = '/sell'
+                    } else {
+                        alert('you are not admin')
+                    }
+                })
+
+        }
+
+
+        const add4 = (e) => {
+            e.preventDefault()
+            fetch(`/common`, {
+                headers: { authorization: `Bearer ${JSON.parse(localStorage.getItem('data'))}` },
+                method: 'GET',
+            })
+                .then(response => {
+                    if (response.status === 200) {
+                        return window.location.href = '/sellingList'
+                    } else {
+                        alert('you are not admin')
+                    }
+                })
+        };
+
+        const add8 = (e) => {
+            e.preventDefault()
+            fetch(`/common`, {
+                headers: { authorization: `Bearer ${JSON.parse(localStorage.getItem('data'))}` },
+                method: 'GET',
+            })
+                .then(response => {
+                    if (response.status === 200) {
+                        return window.location.href = '/editSell'
+                    } else {
+                        alert('you are not admin')
+                    }
+                })
+
+        }
+
+
+        const add5 = (e) => {
+            e.preventDefault()
+            fetch(`/common`, {
+                headers: { authorization: `Bearer ${JSON.parse(localStorage.getItem('data'))}` },
+                method: 'GET',
+            })
+                .then(response => {
+                    if (response.status === 200) {
+                        return window.location.href = '/sold'
+                    } else {
+                        alert('you are not admin')
+                    }
+                })
+
+        }
+
+        const add6 = (e) => {
+            e.preventDefault()
+            fetch(`/common`, {
+                headers: { authorization: `Bearer ${JSON.parse(localStorage.getItem('data'))}` },
+                method: 'GET',
+            })
+                .then(response => {
+                    if (response.status === 200) {
+                        return window.location.href = '/createUser'
+                    } else {
+                        alert('you are not admin')
+                    }
+                })
+
+        }
+
+        const add7 = (e) => {
+            e.preventDefault()
+            fetch(`/common`, {
+                headers: { authorization: `Bearer ${JSON.parse(localStorage.getItem('data'))}` },
+                method: 'GET',
+            })
+                .then(response => {
+                    if (response.status === 200) {
+                        return window.location.href = '/stats'
+                    } else {
+                        alert('you are not admin')
+                    }
+                })
+
+        }
+    </script>
+</body>
+
+</html>
