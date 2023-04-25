@@ -1,6 +1,4 @@
-const { sequelize } = require("../../Models/index");
 const User = require('../../Models/user');
-const { QueryTypes } = require('sequelize');
 const jwt = require('jsonwebtoken');
 
 

@@ -49,36 +49,6 @@ const upload = multer({
 
 
 
-// module.exports = class ETURLController {
-/**
- * 
- * @param {*} req 
- * @param {*} res 
- * @returns 
- */
-// async redirectoShortLink(req, res) {
-//   let input = req.query;
-//   console.log(input)
-//   if (typeof input.short_code == "undefined") {
-//     return res.render("errors/404");
-//   }
-// Instead of non worthy talks, can you please allow me some minutes
-// let getShortLink = await Products.findAll();
-
-// if (getShortLink == null) {
-//   return res.render("errors/404");
-// }
-// await Products.update({
-//   counter: Sequelize.literal('counter + 1')
-// },
-//   {
-//     where: { id: getShortLink.id }
-//   })
-
-//     return res.redirect(getShortLink.long_url);
-//   }
-// };
-
 
 module.exports = class productController {
 
